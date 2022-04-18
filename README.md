@@ -47,4 +47,5 @@ Output: 3,2,NORTH
 https://github.com/mschachaty/ToyRobotSimulator
 
 Alternatively, the following executable can be used to run the application:
+https://github.com/mschachaty/ToyRobotSimulator/blob/rel/publish/Simulator.exe
 
