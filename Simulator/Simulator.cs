@@ -9,8 +9,8 @@ namespace Simulator
     public class Simulator : ISimulator
     {
         public IToyRobot? ToyRobot { get; internal set; }
-        private readonly ITabletop _tableTop;
-        private string[] _commands;
+        private readonly ITabletop tableTop;
+        private string[] commands;
         private readonly Dictionary<Command, Func<string>> Methods = new Dictionary<Command, Func<string>>();
 
         public string HandleCommand(Command command)
@@ -23,7 +23,7 @@ namespace Simulator
 
         public Simulator(ITabletop tableTop)
         {
-            _tableTop = tableTop;
+            this.tableTop = tableTop;
 
             Methods.Add(Command.Place, new Func<string>(Place));
             Methods.Add(Command.Move, new Func<string>(Move));
@@ -49,7 +49,7 @@ namespace Simulator
             if (ToyRobot != null)
             {
                 var newPosition = ToyRobot.GetNextPosition();
-                if (_tableTop.IsValidPosition(newPosition))
+                if (tableTop.IsValidPosition(newPosition))
                     ToyRobot.Position = newPosition;
             }
             return String.Empty;
@@ -57,9 +57,9 @@ namespace Simulator
 
         private string Place()
         {
-            var placeCommandParameter = _commands.ParseParameters();
+            var placeCommandParameter = commands.ParseParameters();
 
-            if (!_tableTop.IsValidPosition(placeCommandParameter.Position))
+            if (!tableTop.IsValidPosition(placeCommandParameter.Position))
                 return String.Empty;
 
             if (placeCommandParameter.Direction == null)
@@ -85,7 +85,7 @@ namespace Simulator
             if (!commands[0].ParseCommand(out Command command))
                 throw new ArgumentException(Errors.InvalidCommand);
 
-            _commands = commands;
+            this.commands = commands;
             return HandleCommand(command);
         }
 

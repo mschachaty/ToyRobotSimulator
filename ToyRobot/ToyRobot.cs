@@ -11,8 +11,8 @@ namespace ToyRobot
 
         public ToyRobot(Position position, Direction direction)
         {
-            Position = position;
-            Direction = direction;
+            this.Position = position;
+            this.Direction = direction;
         }
         public Position GetNextPosition()
         {
