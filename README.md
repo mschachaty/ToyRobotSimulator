@@ -46,6 +46,6 @@ Output: 3,2,NORTH
 2.	Clone the following repo:
 https://github.com/mschachaty/ToyRobotSimulator
 
-Alternatively, the following executable can be used to run the application:
+Alternatively, download the following executable and run the application on a Windows PC:
 https://github.com/mschachaty/ToyRobotSimulator/blob/rel/publish/Simulator.exe
 
