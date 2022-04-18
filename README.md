@@ -11,7 +11,8 @@
 •	LEFT and RIGHT will rotate the robot 90 degrees in the specified direction without changing the position of the robot.
 •	REPORT will announce the X,Y and orientation of the robot.
 •	A robot that is not on the table can choose to ignore the MOVE, LEFT, RIGHT and REPORT commands.
-#Example Input and Output
+
+**Example Input and Output**
 1.	Example 1 Input
 > PLACE 0,0,NORTH
 > MOVE
@@ -39,3 +40,8 @@ Output: 3,3,NORTH
 > MOVE
 > REPORT 
 Output: 3,2,NORTH  
+
+**Setup**
+This solution was developed in Microsoft Visual Studio 2022 Edition
+Clone the following repo:
+https://github.com/mschachaty/ToyRobotSimulator
