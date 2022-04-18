@@ -42,6 +42,9 @@ Output: 3,3,NORTH
 Output: 3,2,NORTH  
 
 **Setup**
-This solution was developed in Microsoft Visual Studio 2022 Edition
-Clone the following repo:
+1.	Open Microsoft Visual Studio 2022 Edition. 
+2.	Clone the following repo:
 https://github.com/mschachaty/ToyRobotSimulator
+
+Alternatively, the following executable can be used to run the application:
+
