@@ -35,10 +35,12 @@ namespace Simulator.Test
             }
         }
 
-        [Fact]
-        public void TestProcessCommand_MoveToyRobot()
+        [Theory]
+        [InlineData(6,6)]
+        [InlineData(8,8)]
+        public void TestProcessCommand_MoveToyRobot(int width, int length)
         {
-            ITabletop tableTop = new Tabletop(6, 6);
+            ITabletop tableTop = new Tabletop(width, length);
 
             var simulator = new Simulator(tableTop);
             simulator.ProcessCommand("PLACE 2,2,West".Split(' '));
