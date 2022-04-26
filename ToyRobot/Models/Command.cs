@@ -7,6 +7,7 @@ namespace ToyRobot.Models
         Move,
         Left,
         Right,
-        Report
+        Report,
+        Avoid
     }
 }

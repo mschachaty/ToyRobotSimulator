@@ -34,7 +34,52 @@ namespace Simulator.Test
                 Assert.Equal(expectedError, exception.Message);
             }
         }
+        [Fact]
+        public void TestProcessCommand_Avoid_InvalidCommand()
+        {
+            ITabletop tableTop = new Tabletop(8,8);
 
+            var simulator = new Simulator(tableTop);
+            simulator.ProcessCommand("PLACE 2,2,West".Split(' '));
+            simulator.ProcessCommand("AVOID 2,2".Split(' '));
+
+            Assert.Equal(0, simulator.TableTop.AvoidPositions.Count);
+        }
+        [Fact]
+        public void TestProcessCommand_Avoid_InvalidCommand_NoPlace()
+        {
+            ITabletop tableTop = new Tabletop(8, 8);
+
+            var simulator = new Simulator(tableTop);
+            simulator.ProcessCommand("AVOID 2,2".Split(' '));
+
+            Assert.Equal(0, simulator.TableTop?.AvoidPositions.Count);
+        }
+        [Fact]
+        public void TestProcessCommand_Avoid_Valid()
+        {
+            ITabletop tableTop = new Tabletop(8, 8);
+
+            var simulator = new Simulator(tableTop);
+            simulator.ProcessCommand("PLACE 2,2,West".Split(' '));
+            simulator.ProcessCommand("AVOID 3,3".Split(' '));
+
+            Assert.Equal(1, simulator.TableTop?.AvoidPositions.Count);
+
+        }
+        [Fact]
+        public void TestProcessCommand_Avoid_MultipleValid()
+        {
+            ITabletop tableTop = new Tabletop(8, 8);
+
+            var simulator = new Simulator(tableTop);
+            simulator.ProcessCommand("PLACE 2,2,West".Split(' '));
+            simulator.ProcessCommand("AVOID 3,3".Split(' '));
+            simulator.ProcessCommand("AVOID 4,3".Split(' '));
+
+            Assert.Equal(2, simulator.TableTop?.AvoidPositions.Count);
+
+        }
         [Theory]
         [InlineData(6,6)]
         [InlineData(8,8)]
@@ -46,7 +91,7 @@ namespace Simulator.Test
             simulator.ProcessCommand("PLACE 2,2,West".Split(' '));
             simulator.ProcessCommand("MOVE".Split(' '));
 
-            Assert.Equal(1, simulator.ToyRobot?.Position.X);
+            Assert.Equal(2, simulator.ToyRobot?.Position.X);
             Assert.Equal(2, simulator.ToyRobot?.Position.Y);
             Assert.Equal("Output: 1,2,WEST", simulator.GetReport());
         }

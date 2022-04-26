@@ -9,7 +9,8 @@ namespace Simulator
     public class Simulator : ISimulator
     {
         public IToyRobot? ToyRobot { get; internal set; }
-        private readonly ITabletop tableTop;
+        public ITabletop TableTop { get; internal set; }
+
         private string[] commands;
         private readonly Dictionary<Command, Func<string>> Methods = new Dictionary<Command, Func<string>>();
 
@@ -23,15 +24,35 @@ namespace Simulator
 
         public Simulator(ITabletop tableTop)
         {
-            this.tableTop = tableTop;
+            this.TableTop = tableTop;
 
             Methods.Add(Command.Place, new Func<string>(Place));
             Methods.Add(Command.Move, new Func<string>(Move));
             Methods.Add(Command.Left, new Func<string>(Left));
             Methods.Add(Command.Right, new Func<string>(Right));
             Methods.Add(Command.Report, new Func<string>(GetReport));
+            Methods.Add(Command.Avoid, new Func<string>(Avoid));
         }
+        // The AVOID command should be discarded if it tells the robot to avoid the current coordinates or if the given coordinates fall outside of the table surface.
+        // AVOID will inform the robot about an obstruction on the table in position X,Y.
+        // e.g. AVOID 2,2
+        private string Avoid()
+        {
+            if (ToyRobot == null)
+                return String.Empty;
 
+            var avoidCommandParameter = commands.ParseParameters();
+
+            if (!TableTop.IsValidPosition(avoidCommandParameter.Position))
+                return String.Empty;
+
+            if (ToyRobot.Position.X == avoidCommandParameter.Position.X || ToyRobot.Position.Y == avoidCommandParameter.Position.Y)
+                return String.Empty;
+
+            TableTop.AvoidPositions.Add(avoidCommandParameter.Position);
+            
+            return String.Empty;
+        }
         private string Left()
         {
             ToyRobot?.RotateLeft();
@@ -49,7 +70,7 @@ namespace Simulator
             if (ToyRobot != null)
             {
                 var newPosition = ToyRobot.GetNextPosition();
-                if (tableTop.IsValidPosition(newPosition))
+                if (TableTop.IsValidPosition(newPosition))
                     ToyRobot.Position = newPosition;
             }
             return String.Empty;
@@ -59,7 +80,7 @@ namespace Simulator
         {
             var placeCommandParameter = commands.ParseParameters();
 
-            if (!tableTop.IsValidPosition(placeCommandParameter.Position))
+            if (!TableTop.IsValidPosition(placeCommandParameter.Position))
                 return String.Empty;
 
             if (placeCommandParameter.Direction == null)

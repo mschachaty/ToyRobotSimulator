@@ -2,12 +2,12 @@
 
 namespace Simulator.ConsoleParser
 {
-    public class PlaceCommandParameter
+    public class ParseCommandParameter
     {
         public Position Position { get; set; }
         public Direction? Direction { get; set; }
 
-        public PlaceCommandParameter(Position position, Direction? direction = null)
+        public ParseCommandParameter(Position position, Direction? direction = null)
         {
             Position = position;
             Direction = direction ?? this.Direction;
